@@ -18,9 +18,9 @@ func NewOrderController(invoice protos.InvoicerClient) *OrderController {
 	}
 }
 
-func (controller *OrderController) Route(e *echo.Echo) {
+func (controller *OrderController) Route(e *echo.Echo, group *echo.Group) {
 	e.GET("/orders", controller.GetOrderList)
-	e.POST("/orders", controller.CreateOrder)
+	group.POST("/orders", controller.CreateOrder)
 	e.GET("/orders/invoice", controller.GetOrderInvoice)
 }
 

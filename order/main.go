@@ -1,6 +1,7 @@
 package main
 
 import (
+	authService "github.com/ant-joshua/demo-grpc/auth/service"
 	protos "github.com/ant-joshua/demo-grpc/invoicer"
 	"github.com/ant-joshua/demo-grpc/order/handler"
 	"github.com/labstack/echo/v4"
@@ -20,10 +21,12 @@ func main() {
 
 	}
 
-	proctectedGroup := e.Group("")
+	protectedGroup := e.Group("")
 
-	proctectedGroup.Use(authService)
-	//proctectedGroup.Use(handler.JwtVerify)
+	registerAuthService := authService.NewJwtService()
+
+	protectedGroup.Use(registerAuthService.JwtMiddleware)
+	//protectedGroup.Use(handler.JwtVerify)
 
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()
@@ -36,7 +39,7 @@ func main() {
 	invoiceClient := protos.NewInvoicerClient(conn)
 
 	orderController := handler.NewOrderController(invoiceClient)
-	orderController.Route(e)
+	orderController.Route(e, protectedGroup)
 
 	e.Logger.Fatal(e.Start(":8001"))
 }
