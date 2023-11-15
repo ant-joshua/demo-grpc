@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"strings"
 	"time"
 )
 
@@ -27,12 +28,24 @@ func NewJwtService() *JwtService {
 
 // JwtMiddleware make middleware for jwt
 func (j *JwtService) JwtMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		_, err := j.VerifyToken(c.Request().Header.Get("Authorization"))
+	return func(ctx echo.Context) error {
+		header := ctx.Request().Header.Get("Authorization")
+
+		splitString := strings.Split(header, " ")
+
+		if len(splitString) != 2 {
+			return ctx.JSON(401, map[string]interface{}{
+				"message": "invalid token",
+			})
+		}
+
+		tokenString := splitString[1]
+
+		_, err := j.VerifyToken(tokenString)
 		if err != nil {
 			return err
 		}
-		return next(c)
+		return next(ctx)
 	}
 }
 

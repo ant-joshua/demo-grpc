@@ -5,6 +5,7 @@ import (
 	protos "github.com/ant-joshua/demo-grpc/invoicer"
 	"github.com/ant-joshua/demo-grpc/order/handler"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -12,6 +13,8 @@ import (
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.Logger())
 
 	conn, err := grpc.Dial("localhost:9000", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
