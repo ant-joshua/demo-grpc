@@ -20,6 +20,11 @@ func main() {
 
 	}
 
+	proctectedGroup := e.Group("")
+
+	proctectedGroup.Use(authService)
+	//proctectedGroup.Use(handler.JwtVerify)
+
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()
 		if err != nil {
