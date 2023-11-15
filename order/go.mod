@@ -1,11 +1,10 @@
-module github.com/ant-joshua/demo-grpc/product
+module github.com/ant-joshua/demo-grpc/order
 
 go 1.20
 
 require (
 	github.com/ant-joshua/demo-grpc v0.0.0-20231114223225-d351ca9adeed
 	github.com/labstack/echo/v4 v4.11.3
-	google.golang.org/grpc v1.59.0
 )
 
 require (
@@ -20,5 +19,6 @@ require (
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230822172742-b8732ec3820d // indirect
+	google.golang.org/grpc v1.59.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
