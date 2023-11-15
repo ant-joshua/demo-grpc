@@ -25,7 +25,7 @@ func NewJwtService() *JwtService {
 	return &JwtService{}
 }
 
-// make middleware for jwt
+// JwtMiddleware make middleware for jwt
 func (j *JwtService) JwtMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		_, err := j.VerifyToken(c.Request().Header.Get("Authorization"))
